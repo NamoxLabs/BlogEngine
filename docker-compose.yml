@@ -3,6 +3,11 @@ version: '3'
 services:
   db:
     image: postgres
+    ports:
+      - '127.0.0.1:5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   web:
     build: .
     command: python3 manage.py runserver 0.0.0.0:8000
@@ -10,5 +15,7 @@ services:
       - .:/code
     ports:
       - "8000:8000"
+     environment:
+      - SECRET_KEY=_+i%%13+u)^$xqw5s&4+eai0+pz1up@l&9cnjyobwaz9jzz8-7
     depends_on:
       - db
