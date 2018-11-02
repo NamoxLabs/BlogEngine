@@ -6,16 +6,32 @@ services:
     ports:
       - '127.0.0.1:5432:5432'
     environment:
+      - POSTGRES_DB=template
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+  redis:
+    image: redis
+    ports:
+      - '127.0.0.1:6379:6379'
+  search:
+    image: elasticsearch:6.4.0
+    ports:
+      - '127.0.0.1:9200:9200'
   web:
-    build: .
+    image: mysite:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mysite_container
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
       - "8000:8000"
-     environment:
+    environment:
       - SECRET_KEY=_+i%%13+u)^$xqw5s&4+eai0+pz1up@l&9cnjyobwaz9jzz8-7
+      - DOCKER_CONTAINER=True
     depends_on:
       - db
+      - redis
+      - search
