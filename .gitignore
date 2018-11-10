@@ -107,6 +107,7 @@ venv.bak/
 .vscode
 node_modules
 /node_modules
+.DS_Store
 
 # Spyder project settings
 .spyderproject
