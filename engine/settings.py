@@ -44,7 +44,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Platform apps
-    'engine.account'
+    'engine.account',
+
+    # External apps
+    'versatileimagefield',
+    'django_babel',
+    'bootstrap4',
+    'webpack_loader',
+    'social_django',
+    'impersonate',
+    'captcha'
 ]
 
 MIDDLEWARE = [

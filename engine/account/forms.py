@@ -49,7 +49,7 @@ class SignupForm(forms.ModelForm, FormWithReCaptcha):
         widget=forms.PasswordInput,
         label=pgettext('Password', 'Password'))
     email = forms.EmailField(
-        label=pgettext('Email', 'Email')
+        label=pgettext('Email', 'Email'),
         error_messages={
             'unique': pgettext_lazy(
                 'Registration error',

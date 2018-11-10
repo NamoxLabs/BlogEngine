@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls import include, url
-from django.cong.urls.i18n import i18n_patterns
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.views import serve
@@ -32,8 +32,8 @@ from .account.urls import urlpatterns as account_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include(core_urls)),
-    url(r'^account/', include((account_urls, 'account'), namespace='account')),
-    url(r'^category/', include((category_urls, 'category'), namespace='category')]
+    url(r'^account/', include((account_urls, 'account'), namespace='account'))]
+    # url(r'^category/', include((category_urls, 'category'), namespace='category'))]
 
 if settings.DEBUG:
     import debug_toolbar
