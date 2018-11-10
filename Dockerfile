@@ -1,5 +1,5 @@
 ### Build and install packages
-FROM python:3.6 as build-python
+FROM python:3.7 as build-python
 
 RUN \
   apt-get -y update && \
@@ -36,7 +36,7 @@ RUN \
   #npm run build-emails --production
 
 ### Final image
-FROM python:3.6-slim
+FROM python:3.7-slim
 
 ARG STATIC_URL
 ENV STATIC_URL ${STATIC_URL:-/static/}
@@ -48,7 +48,7 @@ RUN \
   rm -rf /var/lib/apt/lists/*
 
 ADD . /app
-COPY --from=build-python /usr/local/lib/python3.6/site-packages/ /usr/local/lib/python3.6/site-packages/
+COPY --from=build-python /usr/local/lib/python3.7/site-packages/ /usr/local/lib/python3.7/site-packages/
 COPY --from=build-python /usr/local/bin/ /usr/local/bin/
 COPY --from=build-nodejs /app/engine/static /app/engine/static
 COPY --from=build-nodejs /app/webpack-bundle.json /app/
