@@ -16,6 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from .account.urls import urlpatterns as account_urls
+from .core.sitemaps import sitemaps
+from .core.urls import urlpatterns as core_urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    url(r'^', include(core_urls)),
+    url(r'^category/', include((category_urls, 'category'), namespace='category')]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+        # static files (images, css, javascript, etc.)
+        url(r'^static/(?P<path>.*)$', serve)] + static(
+            '/media/', document_root=settings.MEDIA_ROOT
+        )
