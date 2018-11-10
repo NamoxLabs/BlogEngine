@@ -1,6 +1,6 @@
 Babel>=2.5
 bleach<3.0
-cairosvg=*
+cairosvg==2.2.1
 Django>=2.0.8
 dj_database_url >=0.3.0
 django-bootstrap4 >=0.0.4
@@ -13,8 +13,8 @@ django-storages>=1.4.1
 django-templated-email>=2.2.0
 django-versatileimagefield>=1.10
 django-elasticsearch-dsl>=0.5.0.<0.6.0
-django-debug-toolbar = "*"
-django-debug-toolbar-request-history = "*"
+django-debug-toolbar==1.10.1
+django-debug-toolbar-request-history==0.0.9
 django-rest-framework-social-oauth2>=1.1.0
 django-cors-middleware>=1.3.1
 django-oauth-toolkit>=1.2.0
