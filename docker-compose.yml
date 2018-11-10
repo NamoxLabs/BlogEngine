@@ -29,11 +29,11 @@ services:
         STATIC_URL: '/static/'
     restart: unless-stopped
     container_name: engine_container
-    command: python3 manage.py runserver 0.0.0.0:9090
+    command: python3 manage.py runserver 0.0.0.0:9999
     volumes:
       - .:/app
     ports:
-      - "9090:9090"
+      - "9999:9999"
     environment:
       - SECRET_KEY=((p*97yths_mehy9ucbg_x8qe92)w3@an8s*ro*e2f^6h4x!8w
       - DOCKER_CONTAINER=True
