@@ -82,7 +82,7 @@ else:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'template',
+        'NAME': 'engine',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'db',
