@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "account.User"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Application definition
 
@@ -37,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Platform apps
+    'engine.account'
 ]
 
 MIDDLEWARE = [
@@ -124,6 +132,19 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_URL = os.environ.get('STATIC_URL', '/static/')
+STATICFILES_DIRS = [
+    ('assets', os.path.join(PROJECT_ROOT, 'static', 'assets'))
+    #('favicons', os.path.join(PROJECT_ROOT, 'static', 'favicons')),
+    #('images', os.path.join(PROJECT_ROOT, 'static', 'images')),
+    #('dashboard/images', os.path.join(
+        #PROJECT_ROOT, 'static', 'dashboard', 'images'))
+    ]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder']
