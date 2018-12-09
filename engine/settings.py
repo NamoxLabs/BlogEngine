@@ -48,12 +48,12 @@ INSTALLED_APPS = [
 
     # External apps
     'versatileimagefield',
-    #'django_babel',
+    'django_babel',
     'bootstrap4',
     'webpack_loader',
-    #'social_django',
-    #'impersonate',
-    #'captcha'
+    'social_django',
+    'impersonate',
+    'captcha'
 ]
 
 MIDDLEWARE = [
