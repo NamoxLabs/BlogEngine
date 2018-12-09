@@ -33,7 +33,7 @@ freezegun = ">=0.3.9"
 graphene-django = ">=2.2"
 Markdown = ">=2.4"
 "psycopg2-binary" = ">=2.7"
-uwsgi = {version = ">=2.0.0", platform_system = "!= 'Windows'"}
+uwsgi = {version = "==2.0.0", platform_system = "!= 'Windows'"}
 numpy = "*"
 django-babel = "*"
 django-impersonate = "*"
