@@ -77,7 +77,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Platform apps
-    'engine.account'
+    'engine.account',
+    'engine.api',
+    'engine.post',
+    'engine.category',
+    'engine.subcategory',
+    'engine.comment',
 ]
 
 REST_FRAMEWORK = {

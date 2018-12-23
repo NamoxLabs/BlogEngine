@@ -25,6 +25,7 @@ from django.contrib import admin
 from django.urls import path
 
 from .account.urls import urlpatterns as account_urls
+from .api.urls import urlpatterns as api_urls
 #from .core.sitemaps import sitemaps
 #from .core.urls import urlpatterns as core_urls
 #from .account.urls import urlpatterns as account_urls
@@ -35,6 +36,7 @@ urlpatterns = [
     #url(r'^', include(core_urls)),
     #url(r'^account/', include((account_urls, 'account'), namespace='account'))]
     # url(r'^category/', include((category_urls, 'category'), namespace='category'))]
+]
 
 if settings.DEBUG:
     import debug_toolbar

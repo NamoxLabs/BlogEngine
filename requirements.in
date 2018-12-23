@@ -8,6 +8,7 @@ django-cache-url >=1.0.0
 django-webpack-loader>=0.6.0
 django-filter>=2.0.0
 djangorestframework>=3.9.0
+djangorestframework-jwt>=1.11.0
 django-redis>=4.0.0
 django-storages>=1.4.1
 django-templated-email>=2.2.0

@@ -2,13 +2,12 @@ from django.urls import path, include
 from django.conf.urls import url
 from rest_framework.routers import DefaultRouter
 
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token,/
-    verify_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
-from .users import api as users_api
-from .category import api as category_api
-from .subcategory import api as subcategory_api
-from .post import api as post_api
+from engine.account import api_view as users_api
+from engine.category import api_view as category_api
+#from engine.subcategory import api_view as subcategory_api
+#from engine.post import api_view as post_api
 
 router = DefaultRouter()
 router.register(r'category', category_api.Category)
