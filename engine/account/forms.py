@@ -1,12 +1,13 @@
-from captcha.fields import ReCaptchaField
+#from captcha.fields import ReCaptchaField
 from django import forms
 from django.conf import settings
 from django.contrib.auth import forms as django_forms, update_session_auth_hash
 from django.utils.translation import pgettext, pgettext_lazy
 
-from ..acount.models import User
+#from . import models(User)
+from . import models
 
-
+"""
 class FormWithReCaptcha(forms.BaseForm):
     def __new__(cls, *args, **kwargs):
         if settings.RECAPTCHA_PUBLIC_KEY and settings.RECAPTCHA_PRIVATE_KEY:
@@ -15,7 +16,7 @@ class FormWithReCaptcha(forms.BaseForm):
             #   the from simpler for the user.
             cls.base_fields['_captcha'] = ReCaptchaField(label='')
         return super(FormWithReCaptcha, cls).__new__(cls)
-
+"""
 
 class ChangePasswordForm(django_forms.PasswordChangeForm):
     def __init__(self, *args, **kwargs):
@@ -32,7 +33,8 @@ def logout_on_password_change(request, user):
         update_session_auth_hash(request, user)
 
 
-class LoginForm(django_forms.AuthenticationForm, FormWithReCaptcha):
+#class LoginForm(django_forms.AuthenticationForm, FormWithReCaptcha):
+class LoginForm(django_forms.AuthenticationForm):
     username = forms.EmailField(
         label=pgettext('Form field', 'Email'), max_length=75)
 
@@ -44,7 +46,8 @@ class LoginForm(django_forms.AuthenticationForm, FormWithReCaptcha):
                 self.fields['username'].initial = email
 
 
-class SignupForm(forms.ModelForm, FormWithReCaptcha):
+#class SignupForm(forms.ModelForm, FormWithReCaptcha):
+class SignupForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput,
         label=pgettext('Password', 'Password'))
@@ -57,7 +60,7 @@ class SignupForm(forms.ModelForm, FormWithReCaptcha):
             )})
 
     class Meta:
-        model = User
+        model = models.User
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -74,14 +77,15 @@ class SignupForm(forms.ModelForm, FormWithReCaptcha):
         return user
 
 
-class PasswordResetForm(django_forms.PasswordResetForm, FormWithReCaptcha):
+#class PasswordResetForm(django_forms.PasswordResetForm, FormWithReCaptcha):
+class PasswordResetForm(django_forms.PasswordResetForm):
     """Allow resetting password.
 
     This subclass overrides sending emails to use templated email.
     """
 
     def get_users(self, email):
-        active_users = User.objects.filter(email__iexact=email, is_active=True)
+        active_users = models.User.objects.filter(email__iexact=email, is_active=True)
         return active_users
 
     def send_mail(
@@ -91,4 +95,4 @@ class PasswordResetForm(django_forms.PasswordResetForm, FormWithReCaptcha):
         # error "'User' is not JSON serializable". Since it's not used in our
         # template, we remove it from the context.
         del context['user']
-        emails.send_password_reset_email.delay(context, to_email)
+        #emails.send_password_reset_email.delay(context, to_email)

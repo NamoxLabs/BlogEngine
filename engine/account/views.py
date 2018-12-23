@@ -9,10 +9,12 @@ from django.urls import reverse, reverse_lazy
 from django.utils.translation import pgettext, ugettext_lazy as _
 from django.views.decorators.http import require_POST
 
+"""
 from .forms import (
     ChangePasswordForm, LoginForm, PasswordResetForm, 
     SignupForm, logout_on_password_change
 )
+"""
 
 """
 def index(request):

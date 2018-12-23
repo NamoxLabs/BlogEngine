@@ -10,22 +10,33 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+import ast
 import os
+import os.path
+
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_+i%%13+u)^$xqw5s&4+eai0+pz1up@l&9cnjyobwaz9jzz8-7'
+if os.environ.get('SECRET_KEY') != '':
+    key = os.environ.get('SECRET_KEY')
+else:
+    key = '_+i%%13+u)^$xqw5s&4+eai0+pz1up@l&9cnjyobwaz9jzz8-7'
+SECRET_KEY = key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ast.literal_eval(os.environ.get('DEBUG', 'True'))
 
-ALLOWED_HOSTS = []
+SITE_ID = 1
+
+PROJECT_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
+
+ALLOWED_HOSTS = ['localhost', 'blogengine.herokuapp.com', '0.0.0.0', '127.0.0.1', '*']
 
 AUTH_USER_MODEL = "account.User"
 
@@ -33,9 +44,31 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+ROOT_URLCONF = 'engine.urls'
+
+#INTERNAL_IPS = get_list(os.environ.get('INTERNAL_IPS', '127.0.0.1'))
+
+APPEND_SLASH = False
+
+ENABLE_SSL = ast.literal_eval(os.environ.get('ENABLE_SSL', 'False'))
+
+#CACHES = {'default': django_cache_url.config()}
+
+def get_host():
+    from django.contrib.sites.models import Site
+    return Site.objects.get_current().domain
+
 # Application definition
 
 INSTALLED_APPS = [
+    # External apps
+    'rest_framework',
+    'rest_framework.authtoken',
+    'social_django',
+    #'impersonate',
+    #'captcha',
+
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,17 +77,106 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Platform apps
-    'engine.account',
-
-    # External apps
-    'versatileimagefield',
-    'django_babel',
-    'bootstrap4',
-    'webpack_loader',
-    'social_django',
-    'impersonate',
-    'captcha'
+    'engine.account'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+# JWT settings
+JWT_AUTH = {
+    'JWT_ENCODE_HANDLER':
+    'rest_framework_jwt.utils.jwt_encode_handler',
+
+    'JWT_DECODE_HANDLER':
+    'rest_framework_jwt.utils.jwt_decode_handler',
+
+    'JWT_PAYLOAD_HANDLER':
+    'rest_framework_jwt.utils.jwt_payload_handler',
+
+    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
+    'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+
+    'JWT_RESPONSE_PAYLOAD_HANDLER':
+    'rest_framework_jwt.utils.jwt_response_payload_handler',
+
+    'JWT_SECRET_KEY': 'yBn3AVKkwOQNi8J8whnzjeUN90ViyiBJgP5g35f10P8PyNGeoeqeM4zeqjV1ZZV',
+    'JWT_GET_USER_SECRET_KEY': None,
+    'JWT_PUBLIC_KEY': None,
+    'JWT_PRIVATE_KEY': None,
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_VERIFY': True,
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_LEEWAY': 0,
+    'JWT_EXPIRATION_DELTA': timedelta(seconds=300),
+    'JWT_AUDIENCE': None,
+    'JWT_ISSUER': None,
+
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+    'JWT_AUTH_COOKIE': None,
+} 
+
+"""
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'root': {
+        'level': 'INFO',
+        'handlers': ['console']
+    },
+    'formatters': {
+        'verbose': {
+            'format': (
+                '%(levelname)s %(name)s %(message)s'
+                ' [PID:%(process)d:%(threadName)s]')
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handler': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'django.server': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'engine': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
+        }
+    }
+}
+"""
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,7 +208,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'engine.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 # https://stackoverflow.com/questions/51962032/docker-image-on-django-app-with-postgres-returns-django-db-utils-operationalerro
@@ -102,7 +223,7 @@ DATABASES = {
         'NAME': 'engine',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'HOST': POSTGRES_HOST,
         'PORT': '5432',
     }
 }

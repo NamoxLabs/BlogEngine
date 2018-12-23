@@ -15,31 +15,8 @@ ADD Pipfile.lock /app/
 WORKDIR /app
 RUN pipenv install --system --deploy --dev
 
-### Build static assets
-FROM node:10 as build-nodejs
-
-ARG STATIC_URL
-ENV STATIC_URL ${STATIC_URL:-/static/}
-
-# Install node_modules
-ADD webpack.config.js app.json package.json package-lock.json tsconfig.json webpack.d.ts /app/
-WORKDIR /app
-RUN npm install
-
-# Build static
-ADD ./engine/static /app/engine/static/
-ADD ./templates /app/templates/
-RUN \
-  STATIC_URL=${STATIC_URL} \
-  npm run build-assets --production 
-  #&& \
-  #npm run build-emails --production
-
 ### Final image
 FROM python:3.7-slim
-
-ARG STATIC_URL
-ENV STATIC_URL ${STATIC_URL:-/static/}
 
 RUN \
   apt-get update && \
@@ -50,14 +27,9 @@ RUN \
 ADD . /app
 COPY --from=build-python /usr/local/lib/python3.7/site-packages/ /usr/local/lib/python3.7/site-packages/
 COPY --from=build-python /usr/local/bin/ /usr/local/bin/
-COPY --from=build-nodejs /app/engine/static /app/engine/static
-COPY --from=build-nodejs /app/webpack-bundle.json /app/
-COPY --from=build-nodejs /app/templates /app/templates
 WORKDIR /app
 
-RUN SECRET_KEY=dummy \
-    STATIC_URL=${STATIC_URL} \
-    python3 manage.py collectstatic --no-input
+RUN SECRET_KEY=dummy
 
 RUN useradd --system engine && \
     mkdir -p /app/media /app/static && \
@@ -71,11 +43,3 @@ ENV PORT 9999
 ENV PYTHONUNBUFFERED 1
 ENV PROCESSES 4
 CMD ["uwsgi", "/app/engine/wsgi/uwsgi.ini"]
-
-#FROM python:3
-#ENV PYTHONUNBUFFERED 1
-#RUN mkdir /app
-#WORKDIR /app
-#ADD requirements.txt /app/
-#RUN pip install -r requirements.txt
-#ADD . /app/

@@ -3,7 +3,7 @@ import json
 from django.contrib import messages
 from django.template.response import TemplateResponse
 from django.utils.translation import pgettext_lazy
-from impoersonate.views import impersonate as orig_impersonate
+#from impoersonate.views import impersonate as orig_impersonate
 
 from ..account.models import User
 # from ..seo.schema.webpage import get_webpage_schema
@@ -18,7 +18,7 @@ def home(request):
         }
     )
 
-
+"""
 def impersonate(request, uid):
     response = orig_impersonate(request, uid)
     if request.session.modigied:
@@ -27,7 +27,7 @@ def impersonate(request, uid):
             'You are now logged as {}'.format(User.objects.get(pk=uid)))
         messages.success(request, msg)
     return response
-
+"""
 
 def hanlde_404(request, exception=None):
     return TemplateResponse(request, '404.html', status=404)
