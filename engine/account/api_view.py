@@ -42,7 +42,7 @@ class RegisterUsers(generics.CreateAPIView):
             if not name and not lastname and not email and not password:
                 return Response(
                     data={
-                        "message": "username, password and email is required to register a user"
+                        "message": "name, password and email is required to register a user"
                     },
                     status=status.HTTP_400_BAD_REQUEST
                 )
