@@ -22,8 +22,11 @@ class UserManager(BaseUserManager):
 
 # user model definition
 class User(PermissionsMixin, AbstractBaseUser):
-    email = models.EmailField(max_length=80, unique=True)
-    user = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=120, blank=True)
+    lastname = models.CharField(max_length=120, blank=True)
+    username = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(max_length=100, unique=True)
+    invitation_code = models.CharField(max_length=35, blank=True)
     rol = models.CharField(max_length=25, blank=True)
     is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)

@@ -49,7 +49,7 @@ class RegisterUsers(generics.CreateAPIView):
             new_user = User.objects.create_user(
                 name=name, lastname=lastname, username=username, email=email,
                 password=password, invitation_code=invitation_code, 
-                rol=rol, is_staff_meetcare=False, is_active=False
+                rol=rol, is_staff=False, is_active=True
             )
             return Response(status=status.HTTP_201_CREATED)
 
