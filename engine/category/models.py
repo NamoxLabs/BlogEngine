@@ -1,7 +1,4 @@
-from datetime import datetime
-
 from django.db import models
-#from django.utils import timezone
 from django.utils.timezone import now
 
 from engine.account.models import User
@@ -12,7 +9,7 @@ class Category(models.Model):
     description = models.TextField(blank=False, null=True, default='')
     created_by = models.ForeignKey(User, related_name='user_category',\
         null=True, editable=False, on_delete=models.SET_NULL)
-    created_at = models.DateTimeField(default=now, editable=True)
+    created_at = models.DateTimeField(default=now, editable=False)
     changed = models.DateTimeField(default=now, editable=True)
     active = models.BooleanField(default=False)
 

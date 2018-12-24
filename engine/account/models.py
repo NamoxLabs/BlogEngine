@@ -7,6 +7,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import pgettext_lazy
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, is_staff=False,
                     is_active=True, username='', **extra_fields):
@@ -18,7 +19,8 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-#user model definition
+
+# user model definition
 class User(PermissionsMixin, AbstractBaseUser):
     email = models.EmailField(max_length=80, unique=True)
     user = models.CharField(max_length=50, blank=True)
