@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Category
+from engine.category.models import Category as CModel
 
 class CSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
+        model = CModel
         fields = ('id', 'name', 'description', 'created_by', 
             'created_at', 'active')

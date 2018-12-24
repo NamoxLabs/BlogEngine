@@ -23,7 +23,8 @@ def api_root(request, format=None):
 class Categories(viewsets.ModelViewSet):
     queryset = CModel.objects.all()
     serializer_class = CSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
 
     def perform_create(self, serializer):
         serializer.save()
