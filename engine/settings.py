@@ -81,7 +81,6 @@ INSTALLED_APPS = [
     'engine.api',
     'engine.post',
     'engine.category',
-    'engine.subcategory',
     'engine.comment',
 ]
 
