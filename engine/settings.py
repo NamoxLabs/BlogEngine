@@ -79,9 +79,10 @@ INSTALLED_APPS = [
     # Platform apps
     'engine.account',
     'engine.api',
-    'engine.post',
+    'engine.hashtag',
     'engine.category',
     'engine.comment',
+    'engine.post',
 ]
 
 REST_FRAMEWORK = {
