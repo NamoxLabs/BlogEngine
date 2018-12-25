@@ -18,21 +18,6 @@ class CSerializer(serializers.ModelSerializer):
 
     @get_request_token
     def create(self, validated_data):
-        print("validated_data")
-        print(validated_data)
-        #token = self.context['request'].META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
-        #data = {'token': token}
-        #try:
-            #user_data = VerifyJSONWebTokenSerializer().validate(data)
-            #user = user_data['user']
-            #validated_data['created_by'] = user
         if validated_data['created_by']:
             category_obj = CModel.objects.create(**validated_data)
-            print("category_obj")
-            print(category_obj)
-            #category.add(created_by=user)
             return category_obj
-            
-        #except ValidationError as v:
-        #    return
-            #return Object
