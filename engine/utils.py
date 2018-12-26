@@ -34,3 +34,25 @@ def get_user_token(func):
         print(obj_result)
         return obj_result
     return func_wrapper
+
+"""
+class MultimediaHandler(APIView):
+    #authentication_classes = (authentication.JSONWebTokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAdminUser,)
+
+    def post(self, request, format=None):
+        print("request.FILES")
+        print(request.FILES)
+        request.FILES
+        #serializer = UserAvatarSerializer(files=request.FILES)
+        #print("serializer")
+        #print(serializer)
+        if serializer.is_valid():
+            print("funca")
+            serializer.save()
+            return Response(serializer.data)
+
+"""
+
+#upload to digital ocean

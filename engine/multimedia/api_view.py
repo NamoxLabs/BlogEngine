@@ -10,10 +10,9 @@ from rest_framework_jwt.settings import api_settings
 from engine.multimedia.models import MultimediaUser as MulUserModel, MultimediaCategory as MulCatModel,\
     MultimediaSubategory as MulSubCModel, MultimediaPost as MulPostModel
 from .serializers import MulUserSerializer, MulCatSerializer,\
-    MulSubCSerializer, MulPostSerializer, UserAvatarSerializer
+    MulSubCSerializer, MulPostSerializer
 
 from engine.utils import get_request_token, get_user_token
-
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -30,10 +29,13 @@ class MultimediaHandler(APIView):
     permission_classes = (permissions.IsAuthenticated,)
     #permission_classes = (permissions.IsAdminUser,)
 
-    def post(self, request):
-        serializer = UserAvatarSerializer(temp_file=request.FILES)
-        print("serializer")
-        print(serializer)
+    def post(self, request, format=None):
+        print("request.FILES")
+        print(request.FILES)
+        request.FILES
+        #serializer = UserAvatarSerializer(files=request.FILES)
+        #print("serializer")
+        #print(serializer)
         if serializer.is_valid():
             print("funca")
             serializer.save()

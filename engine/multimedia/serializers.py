@@ -9,10 +9,6 @@ from engine.multimedia.models import MultimediaUser as MulUserModel, MultimediaC
 from engine.utils import get_request_token
 
 
-class UserAvatarSerializer(serializers.Serializer):
-    temp_file = serializers.ImageField()
-
-
 class MulUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MulUserModel
