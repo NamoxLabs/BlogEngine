@@ -19,14 +19,8 @@ class HashSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         if validated_data['created_by']:
             unvalidated_data = self.context['request'].data
-            print("unvalidated_data")
-            print(unvalidated_data)
             hashtag = unvalidated_data.get('name')
-            print("hashtag")
-            print(hashtag)
-            hashtag_prev = HashModel.objects.all(name=hashtag)
-            print("hashtag_prev")
-            print(hashtag_prev)
+            hashtag_prev = HashModel.objects.filter(name=hashtag).first()
             if hashtag_prev is not None:
                 return hashtag_prev
             else:
