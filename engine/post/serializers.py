@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from rest_framework.exceptions import ValidationError
 
+from engine.hashtag.models import Hashtag as HashModel
 from engine.category.models import Category as CModel, Subcategory as SBModel
 from engine.post.models import Post as PModel
 
@@ -42,7 +43,11 @@ class PSerializer(serializers.ModelSerializer):
             print(hashtags)
             if hashtags is not None:
                 for hashtag in hashtags:
-                    HashModel.objects.get()
+                    has_exists = HashModel.objects.get(pk=hashtag)
+                    if has_exists is None:
+                        hash = HashModel.objects.create(name=hashtag)
+                        print("hash")
+                        print(hash)
             post_obj = PModel.objects.create(**validated_data)
             if post_obj is not None:
                 for subcategory in subcategories:
