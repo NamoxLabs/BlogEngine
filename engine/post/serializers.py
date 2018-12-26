@@ -21,37 +21,13 @@ class PSerializer(serializers.ModelSerializer):
     @get_request_token
     def create(self, validated_data):
         if validated_data['created_by']:
-            print("validated_data")
-            print(validated_data)
-            print("self.context['request'].data")
-            print(self.context['request'].data)
             unvalidated_data = self.context['request'].data
-            print("unvalidated_data")
-            print(unvalidated_data)
             category = unvalidated_data.get('category')
-            print("category")
-            print(category)
             category_obj = CModel.objects.get(pk=category)
-            print("category_obj")
-            print(category_obj)
             validated_data['category'] =  category_obj
             subcategories = unvalidated_data.get('subcategories', [])
-            print("subcategories")
-            print(subcategories)
-            hashtags = unvalidated_data.get('hashtags', [])
-            print("hashtags")
-            print(hashtags)
-            if hashtags is not None:
-                for hashtag in hashtags:
-                    has_exists = HashModel.objects.get(pk=hashtag)
-                    if has_exists is None:
-                        hash = HashModel.objects.create(name=hashtag)
-                        print("hash")
-                        print(hash)
+            hashtags = validated_data.pop('hashtags')
             post_obj = PModel.objects.create(**validated_data)
             if post_obj is not None:
-                for subcategory in subcategories:
-                    post_obj.subcategories.add(subcategory)
-                for hashtag in hashtags:
-                    post_obj.hashtags.add(hashtag)
+                post_obj.hashtags.set(hashtags)
             return post_obj
