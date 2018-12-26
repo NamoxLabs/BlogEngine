@@ -13,8 +13,7 @@ class Post(models.Model):
         null=True, editable=False, on_delete=models.SET_NULL)
     subcategories = models.ForeignKey(Subcategory, related_name='post_subcategory',\
         null=True, editable=False, on_delete=models.SET_NULL)
-    hashtags = models.ManyToManyField(Hashtag, related_name='post_hashtags',\
-        null=True, editable=False, on_delete=models.SET_NULL)
+    hashtags = models.ManyToManyField(Hashtag, related_name='post_hashtags')
     created_by = models.ForeignKey(User, related_name='user_post',\
         null=True, editable=False, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(default=now, editable=False)
