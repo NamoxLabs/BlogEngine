@@ -3,7 +3,6 @@ from django.utils.timezone import now
 
 from engine.account.models import User
 from engine.category.models import Category, Subcategory
-from engine.hashtag.models import Hashtag
 from engine.post.models import Post
 
 

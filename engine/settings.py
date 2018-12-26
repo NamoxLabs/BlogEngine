@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Platform apps
+    'engine.multimedia',
     'engine.account',
     'engine.api',
     'engine.hashtag',
@@ -283,3 +284,49 @@ STATICFILES_DIRS = [
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder']
+
+ACCESS_CONTROL_ALLOW_HEADERS = '*'
+
+#CORS configuration
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
+CORS_ORIGIN_WHITELIST = (
+    'localhost',
+    'http://localhost',
+    'http://localhost:3000',
+    '127.0.0.1:3000',
+    '0.0.0.0:3000',
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost',
+    'http://localhost',
+    'http://localhost:3000',
+    '127.0.0.1:3000',
+    '0.0.0.0:3000',
+)
+
+CORS_ALLOW_METHODS = (
+    'POST'
+)
+
+"""
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'POST',
+    'PUT'
+)
+"""
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)
