@@ -23,7 +23,6 @@ class CSerializer(serializers.ModelSerializer):
 
 
 class SBSerializer(serializers.ModelSerializer):
-    #category = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     category = CSerializer(many=False, read_only=True)
 
     class Meta:

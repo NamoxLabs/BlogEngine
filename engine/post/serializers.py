@@ -8,10 +8,17 @@ from engine.hashtag.models import Hashtag as HashModel
 from engine.category.models import Category as CModel, Subcategory as SBModel
 from engine.post.models import Post as PModel
 
+from engine.hashtag.serializers import HashSerializer
+from engine.category.serializers import CSerializer, SBSerializer
+
 from engine.utils import get_request_token
 
 
 class PSerializer(serializers.ModelSerializer):
+    category = CSerializer(many=False, read_only=True)
+    subcategories = SBSerializer(many=True, read_only=True)
+    hashtags = HashSerializer(many=True, read_only=True)
+
     class Meta:
         model = PModel
         fields = ('id', 'name', 'content', 'category',
@@ -37,7 +44,9 @@ class PSerializer(serializers.ModelSerializer):
             subcategories = unvalidated_data.pop('subcategories')
             print("subcategories")
             print(subcategories)
-            hashtags = validated_data.pop('hashtags')
+            hashtags = unvalidated_data.pop('hashtags')
+            print("hashtags")
+            print(hashtags)
             post_obj = PModel.objects.create(**validated_data)
             if post_obj is not None:
                 post_obj.hashtags.set(hashtags)
@@ -47,4 +56,11 @@ class PSerializer(serializers.ModelSerializer):
                     subcategory_obj = SBModel.objects.get(pk=subcategory)
                     post_obj.subcategories.add(subcategory_obj)
                     # post_obj.subcategories.set(subcategory_obj)
+                for hashtag in hashtags:
+                    print("hashtag")
+                    print(hashtag)
+                    hashtag_obj = HashModel.objects.get(name=hashtag)
+                    if hashtag_obj is None:
+                        hashtag_obj = HashModel.objects.create(name=hashtag)
+                    post_obj.hashtags.add(hashtag_obj)
             return post_obj
