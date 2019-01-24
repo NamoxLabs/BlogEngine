@@ -59,14 +59,11 @@ def get_host():
     return Site.objects.get_current().domain
 
 # Application definition
-
 INSTALLED_APPS = [
     # External apps
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
-    #'impersonate',
-    #'captcha',
 
     # Django apps
     'django.contrib.admin',
