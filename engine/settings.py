@@ -76,7 +76,6 @@ INSTALLED_APPS = [
     # Platform apps
     'engine.multimedia',
     'engine.account',
-    'engine.api',
     'engine.hashtag',
     'engine.category',
     'engine.comment',
