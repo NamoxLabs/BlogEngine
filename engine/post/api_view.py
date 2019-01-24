@@ -23,18 +23,10 @@ def api_root(request, format=None):
     })
 
 
-#class Post(viewsets.ModelViewSet):
-class Post(APIView):
+class DataPost(viewsets.ModelViewSet):
     queryset = PModel.objects.all()
     serializer_class = PSerializer
-    authentication_classes = (JSONWebTokenAuthentication)
     permission_classes = (permissions.IsAuthenticated,)
-
-    @get_user_token
-    def post(self, request, pk=None):
-        print("l")
-
-    """
+    
     def perform_create(self, serializer):
         serializer.save()
-    """

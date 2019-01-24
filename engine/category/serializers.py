@@ -23,13 +23,20 @@ class CSerializer(serializers.ModelSerializer):
 
 
 class SBSerializer(serializers.ModelSerializer):
+    #category = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    category = CSerializer(many=False, read_only=True)
+
     class Meta:
         model = SBModel
-        fields = ('id', 'name', 'description', 'created_by', 
+        fields = ('id', 'name', 'category', 'description', 'created_by', 
             'created_at', 'active',)
 
     @get_request_token
     def create(self, validated_data):
         if validated_data['created_by']:
+            unvalidated_data = self.context['request'].data
+            category = unvalidated_data.get('category')
+            category_obj = CModel.objects.get(pk=category)
+            validated_data['category'] =  category_obj
             subcategory_obj = SBModel.objects.create(**validated_data)
             return subcategory_obj

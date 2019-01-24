@@ -37,7 +37,7 @@ router.register(r'multimedia/user', multimedia_api.MultimediaUser)
 router.register(r'multimedia/category', multimedia_api.MultimediaCategory)
 router.register(r'multimedia/subcategory', multimedia_api.MultimediaSubcategory)
 router.register(r'multimedia/post', multimedia_api.MultimediaPost)
-router.register(r'create/posts', post_api.DataPost)
+router.register(r'posts', post_api.DataPost)
 #router.register(r'create/posts', post_view.Post.as_view())
 
 from engine.multimedia import api_view as multimedia_view

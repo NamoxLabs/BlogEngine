@@ -1,6 +1,3 @@
-# from django.contrib.auth.models import User
-# from django.contrib.auth import authenticate, login
-
 from rest_framework import generics, permissions, renderers, viewsets
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
@@ -26,7 +23,6 @@ class Categories(viewsets.ModelViewSet):
     queryset = CModel.objects.all()
     serializer_class = CSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    #permission_classes = (permissions.AllowAny,)
 
     def perform_create(self, serializer):
         serializer.save()
