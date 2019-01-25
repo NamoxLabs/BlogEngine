@@ -28,6 +28,7 @@ class PSerializer(serializers.ModelSerializer):
             'subcategories', 'hashtags', 'created_by', 'created_at',
             'changed', 'active')
     
+    
     @get_request_token
     def create(self, validated_data):
         if validated_data['created_by']:
