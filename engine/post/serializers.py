@@ -32,41 +32,16 @@ class PSerializer(serializers.ModelSerializer):
     @get_request_token
     def create(self, validated_data):
         if validated_data['created_by']:
-            #print("validated_data")
-            #print(validated_data)
             unvalidated_data = self.context['request'].data
-            print("unvalidated_data")
-            print(unvalidated_data)
             category = unvalidated_data.get('category')
             category_obj = CModel.objects.get(pk=category)
-            validated_data['category'] =  category_obj
-            print("validated_data")
-            print(validated_data)
-            #subcategories = unvalidated_data.pop('subcategories')
+            validated_data['category'] = category_obj
             subcategories = unvalidated_data.get('subcategories')
-            print("subcategories")
-            print(subcategories)
-            print(type(subcategories))
-            #hashtags = unvalidated_data.pop('hashtags')
             hashtags = unvalidated_data.get('hashtags')
-            print("hashtags")
-            print(hashtags)
             post_obj = PModel.objects.create(**validated_data)
             if post_obj is not None:
-                subcategory_list = subcategories.split(', ')
-                print("subcategory_list")
-                print(subcategory_list)
                 subcategories_list = ast.literal_eval(subcategories)
-                print("subcategories_list")
-                print(subcategories_list)
                 for subcategory in subcategories_list:
-                    print("subcategory")
-                    print(subcategory)
-                    #print("subcategory list")
-                    #print(json.loads(subcategories_list))
-                    #for subcategory in subcategories_list:
-                    #    print("subcategory")
-                    #    print(subcategory)
                     try:
                         # This line is generating error because record doesn't exists
                         subcategory_obj = SBModel.objects.get(pk=int(subcategory))
@@ -75,22 +50,12 @@ class PSerializer(serializers.ModelSerializer):
                     if subcategory_obj is not None:
                         post_obj.subcategories.add(subcategory_obj)
                 hashtags_list = ast.literal_eval(hashtags)
-                print("hashtags_list")
-                print(hashtags_list)
                 for hashtag in hashtags_list:
-                    print("hashtag")
-                    print(hashtag)
                     try:
                         # This line is generating error because record doesn't exists
                         hashtags_obj = HashModel.objects.get(name=str(hashtag))
                     except HashModel.DoesNotExist:
-                        print("validated_data User")
-                        print(validated_data)
-                        print(validated_data['created_by'])
                         hashtags_obj = HashModel.objects.create(name=str(hashtag), created_by=validated_data['created_by'])
-                        #hashtags_obj = None
-                    print("hashtags_obj")
-                    print(hashtags_obj)
                     if hashtags_obj is not None:
                         post_obj.hashtags.add(hashtags_obj)
                 return post_obj
