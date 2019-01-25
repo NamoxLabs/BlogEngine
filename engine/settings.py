@@ -16,6 +16,8 @@ import os.path
 
 from datetime import timedelta
 
+import dj_database_url
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.environ.get('SECRET_KEY') != '':
     key = os.environ.get('SECRET_KEY')
 else:
-    key = '_+i%%13+u)^$xqw5s&4+eai0+pz1up@l&9cnjyobwaz9jzz8-7'
+    key = '((p*97yths_mehy9ucbg_x8qe92)w3@an8s*ro*e2f^6h4x!8w'
 SECRET_KEY = key
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -36,7 +38,7 @@ SITE_ID = 1
 
 PROJECT_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..'))
 
-ALLOWED_HOSTS = ['localhost', 'blogengine.herokuapp.com', '0.0.0.0', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['localhost', 'https://namox-blog-engine.herokuapp.com/', 'namox-blog-engine.herokuapp.com', '0.0.0.0', '127.0.0.1', '*']
 
 AUTH_USER_MODEL = "account.User"
 
@@ -220,6 +222,7 @@ if os.getenv('DOCKER_CONTAINER'):
 else:
     POSTGRES_HOST = '127.0.0.1'
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -230,6 +233,9 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+"""
+
+DATABASES['default'] = dj_database_url.config(default='postgres://jeyfacxykerglw:c8ab36656f44ab8f4ee6732283e6679e6b13dd597a3176d97f1eabca02bfd133@ec2-54-243-223-245.compute-1.amazonaws.com:5432/dei30ssmirlfo8')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
