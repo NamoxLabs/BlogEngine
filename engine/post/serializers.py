@@ -68,7 +68,7 @@ class PSerializer(serializers.ModelSerializer):
                     #    print("subcategory")
                     #    print(subcategory)
                     try:
-                        # This line is generating error because record doesn't exists[1]
+                        # This line is generating error because record doesn't exists
                         subcategory_obj = SBModel.objects.get(pk=int(subcategory))
                     except SBModel.DoesNotExist:
                         subcategory_obj = None
@@ -81,12 +81,13 @@ class PSerializer(serializers.ModelSerializer):
                     print("hashtag")
                     print(hashtag)
                     try:
-                        # This line is generating error because record doesn't exists[1]
-                        hashtags_obj = HashModel.objects.get(name=str(subcategory))
+                        # This line is generating error because record doesn't exists
+                        hashtags_obj = HashModel.objects.get(name=str(hashtag))
                     except HashModel.DoesNotExist:
                         print("validated_data User")
-                        print(validated_data.created_by)
-                        hashtags_obj = HashModel.objects.create(name=str(subcategory))
+                        print(validated_data)
+                        print(validated_data['created_by'])
+                        hashtags_obj = HashModel.objects.create(name=str(hashtag), created_by=validated_data['created_by'])
                         #hashtags_obj = None
                     print("hashtags_obj")
                     print(hashtags_obj)
