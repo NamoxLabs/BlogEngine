@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Platform apps
+    'engine.base_models',
     'engine.multimedia',
     'engine.account',
     'engine.hashtag',
