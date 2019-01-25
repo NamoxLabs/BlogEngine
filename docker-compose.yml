@@ -9,17 +9,10 @@ services:
       - POSTGRES_DB=engine
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-
-  #redis:
-  #  image: redis
-  #  ports:
-  #    - '127.0.0.1:6379:6379'
-
   #search:
   #  image: elasticsearch:6.4.0
   #  ports:
   #    - '127.0.0.1:9200:9200'
-
   web:
     image: engine:latest
     build:

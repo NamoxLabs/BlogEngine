@@ -219,23 +219,21 @@ WSGI_APPLICATION = 'engine.wsgi.application'
 
 if os.getenv('DOCKER_CONTAINER'):
     POSTGRES_HOST = 'db'
+    DATABASE_URL = os.getenv('DATABASE_URL')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'engine',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': POSTGRES_HOST,
+            'PORT': '5432',
+        }
+    }
 else:
     POSTGRES_HOST = '127.0.0.1'
-
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'engine',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': POSTGRES_HOST,
-        'PORT': '5432',
-    }
-}
-"""
-
-DATABASES = {'default': dj_database_url.config(default='postgres://jeyfacxykerglw:c8ab36656f44ab8f4ee6732283e6679e6b13dd597a3176d97f1eabca02bfd133@ec2-54-243-223-245.compute-1.amazonaws.com:5432/dei30ssmirlfo8')}
+    DATABASE_URL = os.getenv('DATABASE_URL')
+    DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
