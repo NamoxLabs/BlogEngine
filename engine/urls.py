@@ -13,36 +13,49 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+#Admin default modules
 from django.conf import settings
-from django.conf.urls import include, url
-from django.conf.urls.i18n import i18n_patterns
-from django.conf.urls.static import static
-from django.contrib.sitemaps.views import sitemap
-from django.contrib.staticfiles.views import serve
-
-#Admin defualt modules
+from django.conf.urls import url
+from django.urls import path, include
 from django.contrib import admin
-from django.urls import path
 
-from .account.urls import urlpatterns as account_urls
-from .api.urls import urlpatterns as api_urls
-#from .core.sitemaps import sitemaps
-#from .core.urls import urlpatterns as core_urls
-#from .account.urls import urlpatterns as account_urls
+from rest_framework.routers import DefaultRouter
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+
+from engine.multimedia import api_view as multimedia_api
+from engine.account import api_view as users_api
+from engine.category import api_view as category_api
+from engine.post import api_view as post_api
+from engine.hashtag import api_view as hash_api
+
+router = DefaultRouter()
+router.register(r'hashtags', hash_api.Hashtag)
+router.register(r'categories', category_api.Categories)
+router.register(r'subcategories', category_api.Subcategories)
+#router.register(r'multimedia', multimedia_api.MultimediaHandler)
+router.register(r'multimedia/user', multimedia_api.MultimediaUser)
+router.register(r'multimedia/category', multimedia_api.MultimediaCategory)
+router.register(r'multimedia/subcategory', multimedia_api.MultimediaSubcategory)
+router.register(r'multimedia/post', multimedia_api.MultimediaPost)
+router.register(r'posts', post_api.DataPost)
+#router.register(r'create/posts', post_view.Post.as_view())
+
+from engine.multimedia import api_view as multimedia_view
+from engine.post import api_view as post_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^api/', include((api_urls, 'api'), namespace='api')),
-    #url(r'^', include(core_urls)),
-    #url(r'^account/', include((account_urls, 'account'), namespace='account'))]
-    # url(r'^category/', include((category_urls, 'category'), namespace='category'))]
+    path('auth/register/', users_api.RegisterUsers.as_view(), name='auth-register'),
+    #url(r'^create-multimedia/', multimedia_view.MultimediaHandler.as_view(), name='create-multimedia'),
+    #url(r'^create-post/', post_view.Post.as_view(), name='create-post'),
+    url(r'^api-token-auth/', obtain_jwt_token, name='create-token'),
+    url(r'^api-token-refresh/', refresh_jwt_token, name='refresh-token'),
+    url(r'^api-token-verify/', verify_jwt_token, name='verify-token'),
+    path('api/v1/', include(router.urls)),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls)),
-        # static files (images, css, javascript, etc.)
-        url(r'^static/(?P<path>.*)$', serve)] + static(
-            '/media/', document_root=settings.MEDIA_ROOT
-        )
+    ]

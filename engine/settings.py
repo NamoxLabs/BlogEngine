@@ -59,14 +59,11 @@ def get_host():
     return Site.objects.get_current().domain
 
 # Application definition
-
 INSTALLED_APPS = [
     # External apps
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
-    #'impersonate',
-    #'captcha',
 
     # Django apps
     'django.contrib.admin',
@@ -77,8 +74,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Platform apps
+    'engine.base_models',
+    'engine.multimedia',
     'engine.account',
-    'engine.api',
     'engine.hashtag',
     'engine.category',
     'engine.comment',
@@ -187,7 +185,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -283,3 +281,49 @@ STATICFILES_DIRS = [
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder']
+
+ACCESS_CONTROL_ALLOW_HEADERS = '*'
+
+#CORS configuration
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
+CORS_ORIGIN_WHITELIST = (
+    'localhost',
+    'http://localhost',
+    'http://localhost:3000',
+    '127.0.0.1:3000',
+    '0.0.0.0:3000',
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost',
+    'http://localhost',
+    'http://localhost:3000',
+    '127.0.0.1:3000',
+    '0.0.0.0:3000',
+)
+
+CORS_ALLOW_METHODS = (
+    'POST'
+)
+
+"""
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'POST',
+    'PUT'
+)
+"""
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+)

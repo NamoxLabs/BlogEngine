@@ -20,6 +20,8 @@ class Category(models.Model):
 class Subcategory(models.Model):
     name = models.CharField(max_length=254, blank=False, null=False, default='')
     description = models.TextField(blank=False, null=True, default='')
+    category = models.ForeignKey(Category, related_name='category',\
+        null=True, editable=False, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, related_name='user_subcategory',\
         null=True, editable=False, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(default=now, editable=True)
