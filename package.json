@@ -24,7 +24,7 @@
     "@types/storybook__addon-storyshots": "^3.4.3",
     "@types/storybook__react": "^3.0.8",
     "@types/string-similarity": "^1.2.0",
-    "apollo": "^1.9.2",
+    "apollo": "^2.34.0",
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-client-preset": "^1.0.6",
